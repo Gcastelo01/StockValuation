@@ -102,4 +102,4 @@ class Mailer():
             subject = f"Informações sobre o papel {self.__ticker}"
             attachments = f"{datapath}/{self.__ticker}-analysis.pdf"
 
-            system(f'echo " " | mutt -s {subject} -a {attachments} -- {self.__dest}')
+            system(f'echo " " | mutt -s "{subject}" -a {attachments} -- {self.__dest}')
