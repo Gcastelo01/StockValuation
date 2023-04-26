@@ -44,7 +44,7 @@ then
     echo "[!] Erro instalando dependências NPM. Talvez o node não esteja instalado."
     read -p "[?] Deseja instalar o NodeJS e o NPM?. [y/n]" resp
 
-    if [ resp = 'y' ]
+    if [ $resp = 'y' ]
     then
         apt install nodejs
         
