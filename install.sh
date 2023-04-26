@@ -7,15 +7,7 @@ python3 -m venv venv
 
 if [ $? -ne 0 ]
 then
-    echo "[!] Erro criando VENV. Verifique sua instalação de python e tente novamente"
-    exit 1
-fi
-
-source ./venv/bin/activate
-
-if [ $? -ne 0 ]
-then
-    echo "[!] Erro ativando VENV. Deseja tentar instalar o gerenciador de venv python? [y/n]"
+    echo "[!] Erro criando VENV.  Deseja tentar instalar o gerenciador de venv python? [y/n]"
     read $resp
     if [ $resp -ne 'y' ]
     then
@@ -24,6 +16,15 @@ then
     else
         exit 1
     fi
+fi
+
+source ./venv/bin/activate
+
+if [ $? -ne 0 ]
+then
+    echo "[!] Erro ativando VENV."
+    read $resp
+    exit 1
 fi
 
 pip install -r requirements.txt
