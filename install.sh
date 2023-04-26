@@ -8,8 +8,9 @@ python3 -m venv venv
 if [ $? -ne 0 ]
 then
     echo "[!] Erro criando VENV.  Deseja tentar instalar o gerenciador de venv python? [y/n]"
-    read $resp
-    if [ $resp -ne 'y' ]
+    read resp
+
+    if [ $resp in 'y' ]
     then
         apt install python3.10-venv -y
         python3 -m venv venv
