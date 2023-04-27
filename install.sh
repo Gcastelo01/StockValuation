@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+erro(){
+    if [ $1 -ne 0 ]
+    then
+        echo "$2"
+        exit 1
+    fi
+}
+
 # Criando ambient virtual e instalando dependências do pip
 echo "[+] Criando ambiente virtual Python3 para execução do script..."
 
@@ -19,22 +27,13 @@ then
     fi
 fi
 
-source ./venv/bin/activate
+source ./venv/bin/activate  
 
-if [ $? -ne 0 ]
-then
-    echo "[!] Erro ativando VENV."
-    read $resp
-    exit 1
-fi
+erro $? "[!] Erro ativando VENV."
 
 pip install -r requirements.txt
 
-if [ $? -ne 0 ]
-then
-    echo "[!] Erro instalando dependências. Tente instalar manualmente via $ pip install -r requirements.txt"
-    exit 1
-fi
+erro $? "[!] Erro instalando dependências. Tente instalar manualmente via $ pip install -r requirements.txt"
 
 # Instalando dependências do Node.js
 npm install
@@ -46,7 +45,7 @@ then
 
     if [ $resp = 'y' ]
     then
-        apt install nodejs
+        apt install nodejs -y
         
         if [ $? -ne 0 ]
         then
@@ -56,7 +55,7 @@ then
 
         echo "[+] NodeJS instalado com sucesso!"
 
-        apt install npm
+        apt install npm -y
 
         if [ $? -ne 0 ]
         then
@@ -75,25 +74,23 @@ echo "[+] Instalando framework QUARTO"
 curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb
 dpkg -i quarto-linux-amd64.deb
 
-if [ $? -ne 0]
-then
-    echo "[!] Erro na instalação do quarto! Acesse https://quarto.org/docs/get-started/ e instale manualmente."
-    exit 1
-fi
+erro $? "[!] Erro na instalação do quarto! Acesse https://quarto.org/docs/get-started/ e instale manualmente."
 
 echo "[+] Framework QUARTO instalado com sucesso!"
 
 echo "[+] Instalando TinyTex"
 quarto install tinytex
 
-if [ $? -ne 0]
-then
-    echo "[!] Erro na instalação do TinyTex!"
-    exit 1
-fi
+erro $? "[!] Erro na instalação do TinyTex!"
 
-# # Configurando incron
-# apt update
-# apt install incron -y
-# echo $USER >> /etc/incron.allow
+echo "[+] TinyTex instalado com sucesso!"
 
+echo "[+] Instalando incron"
+
+apt install incron -y
+
+erro $? "[!] Erro na instalação do incron!"
+
+echo $USER >> /etc/incron.allow
+
+erro $? "[!] Erro ao configurar arquivo incron.allow. Digite manualmente seu nome de usuário em /etc/incron.allow"
