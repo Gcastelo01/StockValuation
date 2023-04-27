@@ -95,6 +95,8 @@ apt install incron -y
 
 erro $? "[!] Erro na instalação do incron!"
 
+echo "[+] Acrescentando $USER ao incrontab"
+
 echo $USER >> /etc/incron.allow
 
 erro $? "[!] Erro ao configurar arquivo incron.allow. Digite manualmente seu nome de usuário em /etc/incron.allow"
