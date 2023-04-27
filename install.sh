@@ -9,23 +9,27 @@ erro(){
 }
 
 # Criando ambient virtual e instalando dependências do pip
-echo "[+] Criando ambiente virtual Python3 para execução do script..."
-
-python3 -m venv venv
-
-if [ $? -ne 0 ]
+if [ ! -d "./venv" ]
 then
-    echo "[!] Erro criando VENV.  Deseja tentar instalar o gerenciador de venv python? [y/n]"
-    read resp
+    echo "[+] Criando ambiente virtual Python3 para execução do script..."
+    python3 -m venv venv
 
-    if [ $resp = 'y' ]
+    if [ $? -ne 0 ]
     then
-        apt install python3.10-venv -y
-        python3 -m venv venv
-    else
-        exit 1
+        echo "[!] Erro criando VENV.  Deseja tentar instalar o gerenciador de venv python? [y/n]"
+        read resp
+
+        if [ $resp = 'y' ]
+        then
+            apt install python3-venv -y
+            python3 -m venv venv
+        else
+            exit 1
+        fi
     fi
 fi
+
+echo "[+] Ativando VENV"
 
 source ./venv/bin/activate  
 
@@ -94,3 +98,5 @@ erro $? "[!] Erro na instalação do incron!"
 echo $USER >> /etc/incron.allow
 
 erro $? "[!] Erro ao configurar arquivo incron.allow. Digite manualmente seu nome de usuário em /etc/incron.allow"
+
+echo "[+] Usuário $USER adicionado ao incrontab"
