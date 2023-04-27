@@ -102,3 +102,8 @@ echo $USER >> /etc/incron.allow
 erro $? "[!] Erro ao configurar arquivo incron.allow. Digite manualmente seu nome de usuário em /etc/incron.allow"
 
 echo "[+] Usuário $USER adicionado ao incrontab"
+echo "[-] Removendo arquivos temporários..."
+
+rm -r quarto-linux-amd64.deb
+
+echo "[+] Instalação concluída com sucesso!/"
