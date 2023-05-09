@@ -89,21 +89,9 @@ erro $? "[!] Erro na instalação do TinyTex!"
 
 echo "[+] TinyTex instalado com sucesso!"
 
-echo "[+] Instalando incron"
-
-apt install incron -y
-
-erro $? "[!] Erro na instalação do incron!"
-
-echo "[+] Acrescentando $USER ao incrontab"
-
-echo $USER >> /etc/incron.allow
-
-erro $? "[!] Erro ao configurar arquivo incron.allow. Digite manualmente seu nome de usuário em /etc/incron.allow"
-
-echo "[+] Usuário $USER adicionado ao incrontab"
-echo "[-] Removendo arquivos temporários..."
-
 rm -r quarto-linux-amd64.deb
 
 echo "[+] Instalação concluída com sucesso!/"
+echo "[...] Configurando serviços necessários"
+
+bash ./scripts/config.sh
