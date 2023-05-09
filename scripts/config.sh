@@ -19,4 +19,3 @@ cp ./assets/mailmonitor.service /etc/systemd/system/
 systemctl daemon-reload
 systemctl start mailmonitor
 systemctl status mailmonitor
-

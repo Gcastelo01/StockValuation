@@ -97,3 +97,20 @@ echo "[+] Instalação concluída com sucesso!/"
 echo "[...] Configurando serviços necessários"
 
 bash $PWD/scripts/config.sh
+
+erro $? "[!] Erro configurando o serviço de monitoramento!"
+
+bash $PWD/scripts/netconfig.sh
+
+if [ $? -ne 0 ]
+then
+    read -p "[!] Erro ao configurar .netconfig. Deseja tentar manualmente? [yes/no]" answ
+    if [ $answ = "y" ]
+    then
+        nano .netconfig
+    else
+        exit 1
+    fi
+fi
+
+echo "[+] Instalação concluida com sucesso! Aproveite :)"
