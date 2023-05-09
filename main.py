@@ -9,6 +9,8 @@ parser.add_argument('-a', "--alert", action='store_true')
 
 args = parser.parse_args()
 
+ss = set.Setter(args.ticker, 0.3)
 
+ss.generate_analysis()
 
 # m = mail.Mailer(args.ticker,
