@@ -96,9 +96,6 @@ echo "[+] TinyTex instalado com sucesso!"
 echo "[+] Instalação concluída com sucesso!/"
 echo "[...] Configurando serviços necessários"
 
-bash $PWD/scripts/config.sh
-
-erro $? "[!] Erro configurando o serviço de monitoramento!"
 
 bash $PWD/scripts/netconfig.sh
 
@@ -112,5 +109,9 @@ then
         exit 1
     fi
 fi
+
+bash $PWD/scripts/config.sh
+
+erro $? "[!] Erro configurando o serviço de monitoramento!"
 
 echo "[+] Instalação concluida com sucesso! Aproveite :)"

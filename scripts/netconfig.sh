@@ -2,7 +2,7 @@
 
 read -p "E-mail para o servidor: " emailServidor
 
-if [ ! echo "$emailServidor" | grep -E "@gmail.com" ] 
+if [ ! (echo "$emailServidor" | grep -E "@gmail.com") ] 
 then
     echo Endereço de e-mail inválido!
     exit 1
