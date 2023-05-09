@@ -8,6 +8,9 @@ erro(){
     fi
 }
 
+# Criando pasta temporária para arquivos de instalação
+mkdir ./temp    
+
 # Criando ambient virtual e instalando dependências do pip
 if [ ! -d "./venv" ]
 then
@@ -75,8 +78,9 @@ fi
 
 # Instalando QUARTO (framework necessário para compilar notebooks)
 echo "[+] Instalando framework QUARTO"
-curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb
-dpkg -i quarto-linux-amd64.deb
+curl -L -o ./temp/quarto-linux-amd64.deb https://quarto.org/download/latest/quarto-linux-amd64.deb
+
+dpkg -i ./temp/quarto-linux-amd64.deb
 
 erro $? "[!] Erro na instalação do quarto! Acesse https://quarto.org/docs/get-started/ e instale manualmente."
 
@@ -89,9 +93,7 @@ erro $? "[!] Erro na instalação do TinyTex!"
 
 echo "[+] TinyTex instalado com sucesso!"
 
-rm -r quarto-linux-amd64.deb
-
 echo "[+] Instalação concluída com sucesso!/"
 echo "[...] Configurando serviços necessários"
 
-bash ./scripts/config.sh
+bash $PWD/scripts/config.sh
