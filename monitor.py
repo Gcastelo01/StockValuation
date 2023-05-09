@@ -9,7 +9,7 @@ import modules.mailer as mail
 
 REGEX_PATTERN = r"^[A-Za-z]{4}\d{1,2}$"
 
-env_vals = dotenv.dotenv_values('.env')
+env_vals = dotenv.dotenv_values('.netconfig')
 
 IMAP_HOST = env_vals['IMAP_HOST']
 IMAP_PORT = env_vals['IMAP_PORT']
