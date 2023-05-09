@@ -103,3 +103,11 @@ class Mailer():
             attachments = f"{datapath}/{self.__ticker}-analysis.pdf"
 
             system(f'echo " " | mutt -s "{subject}" -a {attachments} -- {self.__dest}')
+
+
+    def send_error(self) -> None:
+        """
+        @brief: Envia uma mensagem de erro casa o ticker selecionado não seja um ticker válido da bolsa.
+        """
+
+        system(f'echo "O ticker {self.__ticker} não é um ticker válido!" | mutt -s "Erro ao processar pedido!" -- {self.__dest}')
