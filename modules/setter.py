@@ -10,8 +10,5 @@ class Setter():
         DATAPATH = abspath('.')
         ENVPATH = DATAPATH + '/.env'
 
-        if not exists(ENVPATH):
-            system("touch .env")
-        
         system(f"echo 'TICKER={self.__ticker}\nSAFETY={self.__safety}' > {DATAPATH}/.env")
         system(f"quarto render {DATAPATH}/assets/Evaluator.ipynb --to pdf --execute --output {self.__ticker}-analysis.pdf")

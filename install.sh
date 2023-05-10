@@ -114,4 +114,10 @@ bash $PWD/scripts/config.sh
 
 erro $? "[!] Erro configurando o serviço de monitoramento!"
 
+echo "[+] Criando .env"
+
+touch .env
+
+erro $? "[!] Erro criando .env"
+
 echo "[+] Instalação concluida com sucesso! Aproveite :)"
