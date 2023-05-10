@@ -1,47 +1,55 @@
 import re
 
 import imapclient
+import email
 import dotenv
 
 from time import sleep
 import modules.setter as sett
 import modules.mailer as mail
 
-REGEX_PATTERN = r"^[A-Za-z]{4}\d{1,2}$"
-
 env_vals = dotenv.dotenv_values('.netconfig')
 
+REGEX_PATTERN = r"^[A-Za-z]{4}\d{1,2}$"
+
 IMAP_HOST = env_vals['IMAP_HOST']
-IMAP_PORT = env_vals['IMAP_PORT']
 IMAP_USER = env_vals['IMAP_USER']
 IMAP_PSS = env_vals['IMAP_PASSWD']
 
-
-with imapclient.IMAPClient(IMAP_HOST, IMAP_PORT) as client:
+with imapclient.IMAPClient(IMAP_HOST) as client:
     client.login(IMAP_USER, IMAP_PSS)
-    client.select_folder('INBOX')
+
+    print("Acesso concluído")
+
 
     while True:
-        try:
-            messages = client.search(['UNSEEN'])
-            
-            if messages:
-                for msg_id, data in client.fetch(messages, ['ENVELOPE']).items():
-                    envelope = data[b'ENVELOPE']
-                    to_up = str(envelope.subject).upper()
-                    SENDER = mail.Mailer(to_up, envelope.sender)
+        client.select_folder('INBOX')
+
+        messages = client.search([u'UNSEEN'])
+
+        if messages:
+            for msg_id, data in client.fetch(messages, ['RFC822']).items():
+
+                envelope = email.message_from_bytes(data[b'RFC822'])
+
+                to_up = str(envelope.get("Subject"))
+                mFrom = envelope.get("From").split(" ")[-1].replace("<", '').replace(">", "")
+
+                print(to_up)
+                print(mFrom)
+
+                SENDER = mail.Mailer(to_up,mFrom)
+
+                if re.match(REGEX_PATTERN, to_up):
+                    print(f"TICKER: {to_up}")
+                    SETTER = sett.Setter(to_up)
                     
-                    if re.match(REGEX_PATTERN, to_up):
-                        SETTER = sett.Setter(to_up)
-                        
-                        SETTER.generate_analysis()
-                        SENDER.send_mail()
+                    SETTER.generate_analysis()
+                    SENDER.send_mail()
 
-                    else:
-                        SENDER.send_error()
-                
-                client.set_flags(messages, ['\Seen'])
-            sleep(10)
-
-        except Exception:
-            break
+                else:
+                    print("Ticker inválido")
+                    SENDER.send_error()
+            
+            client.set_flags(messages, ['\Seen'])
+        sleep(5)
