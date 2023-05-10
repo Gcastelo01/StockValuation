@@ -6,4 +6,5 @@ read -p "Digite a senha numérica para o acesso automático" senha
 
 touch .netconfig
 
-echo -e "IMAP_HOST='imap.google.com'\nIMAP_PORT=993\nIMAP_USER='$emailServidor'\nIMAP_PASSWD='$senha'" > .netconfig
+echo -e "IMAP_HOST='imap.google.com'\nSMTP_PORT=587\nIMAP_USER='$emailServidor'\nIMAP_PASSWD='$senha'
+SMTP_SERVER='smtp.gmail.com'" > .netconfig
