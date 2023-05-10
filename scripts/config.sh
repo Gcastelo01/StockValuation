@@ -7,8 +7,9 @@ fi
 
 # Criando serviço de monitoramento
 VENV_DIR="$PWD/venv/bin/python3"
-SCR_DIR="$PWD/monitor.py"
-SERVICE_DESC="[Unit]\nDescription=Monitoramento de E-mail\nAfter=network.target\n\n[Service]\nExecStart=$VENV_DIR $SRC_DIR\nWorkingDirectory=$SRC_DIR\nRestart=always\n\n[Install]\nWantedBy=multi-user.target"
+SRC_DIR="$PWD/monitor.py"
+
+SERVICE_DESC="[Unit]\nDescription=Monitoramento de E-mail\nAfter=network.target\n\n[Service]\nExecStart=$VENV_DIR $SRC_DIR \nWorkingDirectory=$SRC_DIR \nRestart=always\n\n[Install]\nWantedBy=multi-user.target"
 
 touch ./assets/mailmonitor.service
 echo -e $SERVICE_DESC > ./assets/mailmonitor.service
