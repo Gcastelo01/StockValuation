@@ -39,7 +39,8 @@ with imapclient.IMAPClient(IMAP_HOST, IMAP_PORT) as client:
 
                     else:
                         SENDER.send_error()
-
+                
+                client.set_flags(messages, ['\Seen'])
             sleep(10)
 
         except Exception:
