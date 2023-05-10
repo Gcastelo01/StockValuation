@@ -8,7 +8,7 @@ class Setter():
 
     def generate_analysis(self) -> None:
         DATAPATH = abspath('.')
-        ENVPATH = DATAPATH + '/.env'
 
-        system(f"echo 'TICKER={self.__ticker}\nSAFETY={self.__safety}' > {DATAPATH}/.env")
+        system(f"echo 'TICKER={self.__ticker}\nSAFETY={self.__safety}' > .env")
+
         system(f"quarto render {DATAPATH}/assets/Evaluator.ipynb --to pdf --execute --output {self.__ticker}-analysis.pdf")

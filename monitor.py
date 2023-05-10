@@ -23,6 +23,7 @@ with imapclient.IMAPClient(IMAP_HOST) as client:
 
 
     while True:
+        
         client.select_folder('INBOX')
 
         messages = client.search([u'UNSEEN'])
