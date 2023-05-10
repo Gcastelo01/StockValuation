@@ -8,7 +8,10 @@ class Setter():
 
     def generate_analysis(self) -> None:
         DATAPATH = abspath('.')
+        INFO = f'TICKER={self.__ticker}\nSAFETY={self.__safety}'
 
-        system(f"echo 'TICKER={self.__ticker}\nSAFETY={self.__safety}' > .env")
+        with open('.env', 'w') as f:
+            f.write(INFO)
+            f.close()
 
         system(f"quarto render {DATAPATH}/assets/Evaluator.ipynb --to pdf --execute --output {self.__ticker}-analysis.pdf")
