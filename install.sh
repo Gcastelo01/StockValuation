@@ -8,6 +8,8 @@ erro(){
     fi
 }
 
+current_user=$(whoami)
+
 # Criando pasta temporária para arquivos de instalação
 mkdir ./temp    
 mkdir ./data
@@ -89,7 +91,7 @@ echo "[+] Framework QUARTO instalado com sucesso!"
 
 echo "[+] Instalando TinyTex"
 
-sudo -E -u $SUDO_USER quarto install tinytex
+su -c "quarto install tinytex" -s /bin/bash "$current_user"
 
 erro $? "[!] Erro na instalação do TinyTex!"
 
