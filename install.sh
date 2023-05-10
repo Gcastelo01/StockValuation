@@ -120,6 +120,8 @@ echo "[+] Criando .env"
 
 touch .env
 
+chmod o+w .envcl
+
 erro $? "[!] Erro criando .env"
 
 echo "[+] Instalação concluida com sucesso! Aproveite :)"

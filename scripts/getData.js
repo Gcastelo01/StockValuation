@@ -4,7 +4,7 @@ const statusInvest = require('statusinvest');
 
 var tickerName = process.argv[2];
 
-const absolutePath = path.resolve('..') + '/data/' + tickerName + '.json';
+const absolutePath = path.resolve('.') + '/data/' + tickerName + '.json';
 
 const saveFile = async () => {
 
