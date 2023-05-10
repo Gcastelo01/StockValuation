@@ -1,8 +1,17 @@
+import smtplib
+import json
+import dotenv
+
 from os import system
 from os.path import abspath, exists
 
 from datetime import date, datetime
-import json
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
+from email.mime.multipart import MIMEMultipart
+from email import encoders 
+from email.mime.base import MIMEBase
+
 
 class Mailer():
     """
@@ -18,6 +27,7 @@ class Mailer():
         self.__alert = alert
         self.__dest = dest
         self.__alert_content = alert_content
+        self.__server_data = dotenv.dotenv_values('.netconfig')
         self.__DATAPATH = abspath('./data') + f'/{self.__ticker}-alert.json'
 
         
@@ -76,7 +86,13 @@ class Mailer():
         """
         @brief: Envia um alerta de compra ou venda, seguido do gráfico de preço da ação.
         """
+
         if self.__get_last_alert():
+            msg = MIMEMultipart()
+
+            msg['From'] = self.__server_data['IMAP_USER']
+            msg['To'] = self.__dest
+
             datapath = abspath('./assets')
 
             if self.__alert_content == 'Compra':
@@ -85,9 +101,37 @@ class Mailer():
             else:
                 subject = f'| ALERTA DE VENDA PARA {self.__ticker}|'
             
-            attachments = f'-a {datapath}/indicadores.jpg -a {datapath}/graham.jpg'
+            msg['Subject'] = subject
+
+            attachment1 = f'{datapath}/indicadores.jpg'
+            with open(attachment1, 'rb') as img:
+                im1 = img.read()
             
-            system(f'echo " " | mutt -s {subject} {attachments} -- {self.__dest}')
+            attachment2 = f'{datapath}/graham.jpg'
+            with open(attachment2, 'rb') as img:
+                im2 = img.read()
+            
+            im1Mime = MIMEImage(im1)
+            im1Mime.add_header('Content-Disposition', 'attachment', filename='indicadores.jpg')
+
+            im2Mime = MIMEImage(im2)
+            im2Mime.add_header('Content-Disposition', 'attachment', filename='graham.jpg')
+            
+            msg.attach(im1Mime)
+            msg.attach(im2Mime)
+
+            with smtplib.SMTP(self.__server_data['SMTP_HOST'], self.__server_data['SMTP_PORT']) as server:
+
+                server.ehlo()
+
+                server.starttls()
+
+                server.login(self.__server_data['IMAP_USER'], self.__server_data['IMAP_PASSWD'])
+
+                server.send_message(msg)
+
+                server.quit()
+
             self.__save_alert()
 
 
@@ -97,17 +141,65 @@ class Mailer():
         """
         if self.__alert:
             self.__send_alert()
-        else:
-            datapath = abspath('./assets')
-            subject = f"Informações sobre o papel {self.__ticker}"
-            attachments = f"{datapath}/{self.__ticker}-analysis.pdf"
 
-            system(f'echo " " | mutt -s "{subject}" -a {attachments} -- {self.__dest}')
+        else:
+            subject = f"Informações sobre o papel {self.__ticker}"
+
+            msg = MIMEMultipart()
+            msg['From'] = self.__server_data['IMAP_USER']
+            msg['To'] = self.__dest
+            msg['Subject'] = subject
+
+            attachments = f"{self.__ticker}-analysis.pdf"
+
+            with open(attachments, 'rb') as f:
+                pdf = f.read()
+
+            pdf_mime = MIMEBase('application', 'octet-stream')
+            pdf_mime.set_payload(pdf)
+            encoders.encode_base64(pdf_mime)
+            pdf_mime.add_header('Content-Disposition', 'attachment', filename='arquivo.pdf')
+
+            msg.attach(pdf_mime)
+            
+            with smtplib.SMTP(self.__server_data['SMTP_HOST'], self.__server_data['SMTP_PORT']) as server:
+
+                server.ehlo()
+
+                server.starttls()
+
+                server.login(self.__server_data['IMAP_USER'], self.__server_data['IMAP_PASSWD'])
+
+                server.send_message(msg)
+
+                server.quit()
+
+            system(f"rm -rf ./temp")
 
 
     def send_error(self) -> None:
         """
         @brief: Envia uma mensagem de erro casa o ticker selecionado não seja um ticker válido da bolsa.
         """
+        subject = f"Erro de Processamento!"
 
-        system(f'echo "O ticker {self.__ticker} não é um ticker válido!" | mutt -s "Erro ao processar pedido!" -- {self.__dest}')
+        msg = MIMEMultipart()
+        msg['From'] = self.__server_data['IMAP_USER']
+        msg['To'] = self.__dest
+        msg['Subject'] = subject
+
+        msg.attach(MIMEText(f"O ticker {self.__ticker} não é um ticker válido."))
+        
+        with smtplib.SMTP(self.__server_data['SMTP_HOST'], self.__server_data['SMTP_PORT']) as server:
+
+            server.ehlo()
+
+            server.starttls()
+
+            server.login(self.__server_data['IMAP_USER'], self.__server_data['IMAP_PASSWD'])
+
+            server.send_message(msg)
+
+            server.quit()
+
+        print("Mensagem de erro enviada")
