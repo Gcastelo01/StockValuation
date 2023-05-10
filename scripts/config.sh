@@ -14,9 +14,9 @@ SERVICE_DESC="[Unit]\nDescription=Monitoramento de E-mail\nAfter=network.target\
 touch ./assets/mailmonitor.service
 echo -e $SERVICE_DESC > ./assets/mailmonitor.service
 
-# cp ./assets/mailmonitor.service /etc/systemd/system/
+cp ./assets/mailmonitor.service /etc/systemd/system/
 
-# # Iniciando serviço
-# systemctl daemon-reload
-# systemctl start mailmonitor
-# systemctl status mailmonitor
+# Iniciando serviço
+systemctl daemon-reload
+systemctl start mailmonitor
+systemctl status mailmonitor
