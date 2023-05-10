@@ -10,6 +10,7 @@ erro(){
 
 # Criando pasta temporária para arquivos de instalação
 mkdir ./temp    
+mkdir ./data
 
 # Criando ambient virtual e instalando dependências do pip
 if [ ! -d "./venv" ]
@@ -87,7 +88,8 @@ erro $? "[!] Erro na instalação do quarto! Acesse https://quarto.org/docs/get-
 echo "[+] Framework QUARTO instalado com sucesso!"
 
 echo "[+] Instalando TinyTex"
-quarto install tinytex
+
+sudo -E -u $SUDO_USER quarto install tinytex
 
 erro $? "[!] Erro na instalação do TinyTex!"
 

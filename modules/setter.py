@@ -13,5 +13,5 @@ class Setter():
         with open('.env', 'w') as f:
             f.write(INFO)
             f.close()
-
-        system(f"quarto render {DATAPATH}/assets/Evaluator.ipynb --to pdf --execute --output {self.__ticker}-analysis.pdf")
+    
+        system(f"quarto render ./assets/Evaluator.ipynb --to pdf --execute --output {self.__ticker}-analysis.pdf")
