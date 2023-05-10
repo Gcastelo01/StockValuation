@@ -173,9 +173,7 @@ class Mailer():
                 server.send_message(msg)
 
                 server.quit()
-
-            system(f"rm -rf ./temp")
-
+                
 
     def send_error(self) -> None:
         """

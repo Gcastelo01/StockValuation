@@ -120,7 +120,9 @@ echo "[+] Criando .env"
 
 touch .env
 
-chmod o+w .envcl
+chmod o+rw .env
+
+chmod o+rw ./data/
 
 erro $? "[!] Erro criando .env"
 
