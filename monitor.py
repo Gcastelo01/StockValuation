@@ -3,6 +3,7 @@ import re
 import imapclient
 import email
 import dotenv
+import datetime
 
 from time import sleep
 from os import system
@@ -18,19 +19,24 @@ IMAP_HOST = env_vals['IMAP_HOST']
 IMAP_USER = env_vals['IMAP_USER']
 IMAP_PSS = env_vals['IMAP_PASSWD']
 
+def now():
+    return datetime.datetime().now()
+
+
 with imapclient.IMAPClient(IMAP_HOST) as client:
     client.login(IMAP_USER, IMAP_PSS)
 
-    print("Acesso concluído")
-
+    print(f"| Iniciando monitor às {now()} |")
+    print(f"Login com {IMAP_USER} realizado às {now()}")
 
     while True:
         
         client.select_folder('INBOX')
-
         messages = client.search([u'UNSEEN'])
 
         if messages:
+            print(f"Novas mensagens encontradas!")
+
             for msg_id, data in client.fetch(messages, ['RFC822']).items():
 
                 envelope = email.message_from_bytes(data[b'RFC822'])
@@ -38,10 +44,9 @@ with imapclient.IMAPClient(IMAP_HOST) as client:
                 to_up = str(envelope.get("Subject"))
                 mFrom = envelope.get("From").split(" ")[-1].replace("<", '').replace(">", "")
 
-                print(to_up)
-                print(mFrom)
+                print(f"{mFrom} solicitou informações do indicador {to_up} às {now}")
 
-                SENDER = mail.Mailer(to_up,mFrom)
+                SENDER = mail.Mailer(to_up, mFrom)
 
                 if re.match(REGEX_PATTERN, to_up):
                     print(f"TICKER: {to_up}")
@@ -51,9 +56,12 @@ with imapclient.IMAPClient(IMAP_HOST) as client:
                     SETTER.generate_analysis()
                     SENDER.send_mail()
 
+                    print(f"Email com análise enviado para {mFrom} às {now()}")
+
                 else:
                     print("Ticker inválido")
                     SENDER.send_error()
-            
+                    print(f"Mensagem de erro enviada para {mFrom} às {now()}")
+
             client.set_flags(messages, ['\Seen'])
         sleep(5)
