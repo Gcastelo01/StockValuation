@@ -3,10 +3,10 @@ import re
 import imapclient
 import email
 import dotenv
-import datetime
 
 from time import sleep
 from os import system
+from datetime import datetime
 
 import modules.setter as sett
 import modules.mailer as mail
@@ -20,7 +20,7 @@ IMAP_USER = env_vals['IMAP_USER']
 IMAP_PSS = env_vals['IMAP_PASSWD']
 
 def now():
-    return datetime.datetime().now()
+    return datetime.now()
 
 
 with imapclient.IMAPClient(IMAP_HOST) as client:
@@ -49,13 +49,18 @@ with imapclient.IMAPClient(IMAP_HOST) as client:
                 SENDER = mail.Mailer(to_up, mFrom)
 
                 if re.match(REGEX_PATTERN, to_up):
+                    SENDER.confirm_recieve()
                     print(f"Gerando análise {now()}")
                     print(f"TICKER: {to_up}")
 
-                    system(f"node scripts/getData.js {to_up}")
-                    SETTER = sett.Setter(to_up)
-                    SETTER.generate_analysis()
-                    SENDER.send_mail()
+                    try:
+                        system(f"node scripts/getData.js {to_up}")
+                        SETTER = sett.Setter(to_up)
+                        SETTER.generate_analysis()
+                        SENDER.send_mail()
+                        
+                    except Exception:
+                        SENDER.ticker_not_found()
 
                     print(f"Email com análise enviado para {mFrom} às {now()}")
 

@@ -143,7 +143,7 @@ class Mailer():
             self.__send_alert()
 
         else:
-            subject = f"Informações sobre o papel {self.__ticker}"
+            subject = f"Informações sobre o papel {self.__ticker} \u2705"
 
             msg = MIMEMultipart()
             msg['From'] = self.__server_data['IMAP_USER']
@@ -179,7 +179,7 @@ class Mailer():
         """
         @brief: Envia uma mensagem de erro casa o ticker selecionado não seja um ticker válido da bolsa.
         """
-        subject = f"Erro de Processamento!"
+        subject = f"Erro de Processamento! \u26A0\uFE0F \U0001f534"
 
         msg = MIMEMultipart()
         msg['From'] = self.__server_data['IMAP_USER']
@@ -201,3 +201,59 @@ class Mailer():
             server.quit()
 
         print("Mensagem de erro enviada")
+
+
+    def confirm_recieve(self) -> None:
+        """
+        @brief: Envia confirmação de recebimento de pedido para o destinatário
+        """
+        subject = "Requisição em processamento! \U0001f7e1"
+
+        msg = MIMEMultipart()
+        msg['From'] = self.__server_data['IMAP_USER']
+        msg['To'] = self.__dest
+        msg['Subject'] = subject
+
+        msg.attach(MIMEText(f"A análise do Ticker {self.__ticker} já está em processamento!"))
+        
+        with smtplib.SMTP(self.__server_data['SMTP_HOST'], self.__server_data['SMTP_PORT']) as server:
+
+            server.ehlo()
+
+            server.starttls()
+
+            server.login(self.__server_data['IMAP_USER'], self.__server_data['IMAP_PASSWD'])
+
+            server.send_message(msg)
+
+            server.quit()
+
+        print("Mensagem de confirmação enviada")
+
+
+    def ticker_not_found(self) -> None:
+        """
+        @brief: Envia mensagem de erro para o destinatário, caso o ticker tenha um formato válido, mas não seja encontrado na bolsa.
+        """
+        subject = f"Ticker {self.__ticker} inválido! \U0001f6a7"
+
+        msg = MIMEMultipart()
+        msg['From'] = self.__server_data['IMAP_USER']
+        msg['To'] = self.__dest
+        msg['Subject'] = subject
+
+        msg.attach(MIMEText(f"O ticker {self.__ticker} não foi encontrado no Yahoo! finance. Verifique se é um ticker válido e tente novamente (O formato aceito é XXXXNN, onde X são letras e N são números)."))
+        
+        with smtplib.SMTP(self.__server_data['SMTP_HOST'], self.__server_data['SMTP_PORT']) as server:
+
+            server.ehlo()
+
+            server.starttls()
+
+            server.login(self.__server_data['IMAP_USER'], self.__server_data['IMAP_PASSWD'])
+
+            server.send_message(msg)
+
+            server.quit()
+
+        print("Mensagem de aviso enviada")
