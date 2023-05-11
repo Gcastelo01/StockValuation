@@ -49,6 +49,7 @@ with imapclient.IMAPClient(IMAP_HOST) as client:
                 SENDER = mail.Mailer(to_up, mFrom)
 
                 if re.match(REGEX_PATTERN, to_up):
+                    print(f"Gerando análise {now()}")
                     print(f"TICKER: {to_up}")
 
                     system(f"node scripts/getData.js {to_up}")
