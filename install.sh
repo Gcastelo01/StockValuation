@@ -97,11 +97,9 @@ su -c "quarto install tinytex" -s /bin/bash "$SUDO_USER"
 
 erro $? "[!] Erro na instalação do TinyTex!"
 
-echo "[+] TinyTex instalado com sucesso!"
+echo "[+] TinyTex instalado com sucesso para $SUDO_USER!"
 
-echo "[+] Instalação concluída com sucesso!/"
 echo "[...] Configurando serviços necessários"
-
 
 bash $PWD/scripts/netconfig.sh
 
