@@ -11,6 +11,7 @@ erro(){
 # Criando pasta temporária para arquivos de instalação
 mkdir ./temp    
 mkdir ./data
+mkdir ./logs
 
 # Criando ambient virtual e instalando dependências do pip
 if [ ! -d "./venv" ]

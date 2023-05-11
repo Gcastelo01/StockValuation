@@ -9,7 +9,9 @@ fi
 VENV_DIR="$PWD/venv/bin/python3"
 SRC_DIR="$PWD/monitor.py"
 
-SERVICE_DESC="[Unit]\nDescription=Monitoramento de E-mail\nAfter=network.target\n\n[Service]\nExecStart=$VENV_DIR $SRC_DIR \nWorkingDirectory=$PWD \nRestart=always\n\n[Install]\nWantedBy=multi-user.target"
+data=$(date +"%d/%m/%Y")
+
+SERVICE_DESC="[Unit]\nDescription=Monitoramento de E-mail\nAfter=network.target\n\n[Service]\nExecStart=$VENV_DIR $SRC_DIR \nWorkingDirectory=$PWD\nRestart=always\nStandardOutput=append:/var/log/mailmonitor-service-$data.log\nStandardError=append:/var/log/mailmonitor-service-error-$data.log\n[Install]\nWantedBy=multi-user.target"
 
 touch ./assets/mailmonitor.service
 echo -e $SERVICE_DESC > ./assets/mailmonitor.service
