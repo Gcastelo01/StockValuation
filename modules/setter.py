@@ -14,4 +14,4 @@ class Setter():
             f.write(INFO)
             f.close()
     
-        system(f"quarto render ./assets/Evaluator.ipynb --to pdf --execute --output {self.__ticker}-analysis.pdf")
+        system(f"/usr/local/bin/quarto render ./assets/Evaluator.ipynb --to pdf --execute --output {self.__ticker}-analysis.pdf")
