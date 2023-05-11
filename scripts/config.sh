@@ -6,13 +6,13 @@ if [ ! -d "$PWD/temp" ]; then
 fi
 
 # Criando serviço de monitoramento
-VENV_DIR="$PWD/venv/bin/python3"
+VENV_DIR="$PWD/venv/bin/"
 SRC_DIR="$PWD/monitor.py"
 
 touch $PWD/logs/mailmonitor-service.log
 touch $PWD/logs/mailmonitor-service-error.log
 
-SERVICE_DESC="[Unit]\nDescription=Monitoramento de E-mail\nAfter=network.target\n\n[Service]\nExecStart=$VENV_DIR $SRC_DIR \nWorkingDirectory=$PWD\nRestart=always\nStandardOutput=append:$PWD/logs/mailmonitor-service.log\nStandardError=append:$PWD/logs/mailmonitor-service-error.log\n[Install]\nWantedBy=multi-user.target"
+SERVICE_DESC="[Unit]\nDescription=Monitoramento de E-mail\nAfter=network.target\n\n[Service]\nExecStart=/bin/bash -c 'source $VENV_DIR/activate && $VENV_DIR/python3 $SRC_DIR' \nWorkingDirectory=$PWD\nRestart=always\nStandardOutput=append:$PWD/logs/mailmonitor-service.log\nStandardError=append:$PWD/logs/mailmonitor-service-error.log\n[Install]\nWantedBy=multi-user.target"
 
 touch ./assets/mailmonitor.service
 
