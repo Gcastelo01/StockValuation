@@ -93,7 +93,8 @@ echo "[+] Framework QUARTO instalado com sucesso!"
 
 echo "[+] Instalando TinyTex"
 
-su -c "quarto install tinytex" -s /bin/bash "$SUDO_USER"
+# su -c "quarto install tinytex" -s /bin/bash "$SUDO_USER"
+quarto install tinytex
 
 erro $? "[!] Erro na instalação do TinyTex!"
 
@@ -123,7 +124,6 @@ echo "[+] Criando .env"
 touch .env
 
 chmod o+rw .env
-
 
 erro $? "[!] Erro criando .env"
 
