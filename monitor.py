@@ -5,6 +5,8 @@ import email
 import dotenv
 
 from time import sleep
+from os import system
+
 import modules.setter as sett
 import modules.mailer as mail
 
@@ -43,8 +45,9 @@ with imapclient.IMAPClient(IMAP_HOST) as client:
 
                 if re.match(REGEX_PATTERN, to_up):
                     print(f"TICKER: {to_up}")
+
+                    system(f"node scripts/getData.js {to_up}")
                     SETTER = sett.Setter(to_up)
-                    
                     SETTER.generate_analysis()
                     SENDER.send_mail()
 
