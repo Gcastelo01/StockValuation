@@ -13,6 +13,9 @@ mkdir ./temp
 mkdir ./data
 mkdir ./logs
 
+chmod o+rw data/
+chmod +x $PWD/service.sh
+
 # Criando ambient virtual e instalando dependências do pip
 if [ ! -d "./venv" ]
 then
@@ -123,7 +126,6 @@ touch .env
 
 chmod o+rw .env
 
-chmod o+rw ./data/
 
 erro $? "[!] Erro criando .env"
 
