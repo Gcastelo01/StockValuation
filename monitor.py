@@ -14,6 +14,7 @@ import modules.mailer as mail
 env_vals = dotenv.dotenv_values('.netconfig')
 
 REGEX_PATTERN = r"^[A-Za-z]{4}\d{1,2}$"
+REGEX_IMOBILIARIO = r"^[A-Za-z]{4}11$"
 
 IMAP_HOST = env_vals['IMAP_HOST']
 IMAP_USER = env_vals['IMAP_USER']
@@ -53,14 +54,17 @@ with imapclient.IMAPClient(IMAP_HOST) as client:
                     print(f"Gerando análise {now()}")
                     print(f"TICKER: {to_up}")
 
-                    try:
-                        system(f"node scripts/getData.js {to_up}")
-                        SETTER = sett.Setter(to_up)
-                        SETTER.generate_analysis()
-                        SENDER.send_mail()
-                        
-                    except Exception:
-                        SENDER.ticker_not_found()
+                    if not re.match(REGEX_IMOBILIARIO, to_up):
+                        try:
+                            system(f"node scripts/getData.js {to_up}")
+                            SETTER = sett.Setter(to_up)
+                            SETTER.generate_analysis()
+                            SENDER.send_mail()
+                            
+                        except Exception:
+                            SENDER.ticker_not_found()
+                    else:
+                        SENDER.imob_not_found()
 
                     print(f"Email com análise enviado para {mFrom} às {now()}")
 

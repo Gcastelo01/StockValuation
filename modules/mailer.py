@@ -242,7 +242,7 @@ class Mailer():
         msg['To'] = self.__dest
         msg['Subject'] = subject
 
-        msg.attach(MIMEText(f"O ticker {self.__ticker} não foi encontrado no Yahoo! finance. Verifique se é um ticker válido e tente novamente (O formato aceito é XXXXNN, onde X são letras e N são números)."))
+        msg.attach(MIMEText(f"O ticker {self.__ticker} não foi encontrado no Yahoo! finance. Verifique se é um ticker válido e tente novamente (O formato aceito é XXXXNN ou XXXXN, onde X são letras e N são números)."))
         
         with smtplib.SMTP(self.__server_data['SMTP_HOST'], self.__server_data['SMTP_PORT']) as server:
 
@@ -257,3 +257,31 @@ class Mailer():
             server.quit()
 
         print("Mensagem de aviso enviada")
+        
+
+        def imob_not_found(self) -> None:
+            """
+            @brief: Envia mensagem de erro para o destinatário, caso o ticker seja um FII.
+            """
+            subject = f"Ticker {self.__ticker} é FII! \U0001f6a7"
+
+            msg = MIMEMultipart()
+            msg['From'] = self.__server_data['IMAP_USER']
+            msg['To'] = self.__dest
+            msg['Subject'] = subject
+
+            msg.attach(MIMEText(f"O ticker {self.__ticker} É um ticker de fundo imobiliário. No momento, o sistema ainda não faz a análise de FII's. Estamos trabalhando para implementar esta funcionalidade o mais rápido possível!"))
+            
+            with smtplib.SMTP(self.__server_data['SMTP_HOST'], self.__server_data['SMTP_PORT']) as server:
+
+                server.ehlo()
+
+                server.starttls()
+
+                server.login(self.__server_data['IMAP_USER'], self.__server_data['IMAP_PASSWD'])
+
+                server.send_message(msg)
+
+                server.quit()
+
+            print("Mensagem de aviso enviada")
