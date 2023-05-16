@@ -18,4 +18,5 @@ if args.monitor:
 
 if args.test_setter:
     s = set.Setter(args.ticker)
+    system(f'node ./scripts/getData.js {args.ticker}')
     s.generate_analysis()
