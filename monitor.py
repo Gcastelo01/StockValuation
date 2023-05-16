@@ -63,6 +63,7 @@ with imapclient.IMAPClient(IMAP_HOST) as client:
                             
                         except Exception:
                             SENDER.ticker_not_found()
+                            
                     else:
                         SENDER.imob_not_found()
 
