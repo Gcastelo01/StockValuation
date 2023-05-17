@@ -2,7 +2,7 @@
 
 ## AVISO LEGAL :warning:
 
-Os resultados expressos pelo sistema não configuram indicação de compra ou venda, servindo apenas com propósitos educacionais. O Criador deste sistema se exime de qualquer responsabilidade de perda financeira decorrente do uso deste sistema, e dos resultados por ele providos.
+Os resultados expressos pelo sistema não configuram indicação de compra ou venda, servindo apenas a propósitos educacionais. O Criador deste sistema se exime de qualquer responsabilidade de perda financeira decorrente do uso deste sistema, e dos resultados por ele providos.
 
 ## Introdução ao sistema
 
