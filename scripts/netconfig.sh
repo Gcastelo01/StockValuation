@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 read -p "E-mail para o servidor: " emailServidor
-
-read -p "Digite a senha numérica para o acesso automático: " senha
+echo "Um tutorial de como obter a senha para acesso do bot pode ser encontrado aqui: https://www.treinaweb.com.br/blog/enviando-email-com-python-e-smtp"
+read -p "Digite a senha para o acesso: " senha
 
 touch .netconfig
 
