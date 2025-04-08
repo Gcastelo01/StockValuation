@@ -1,0 +1,33 @@
+services:
+  web-stock-valuator:
+    build:
+      context: ./backend
+
+    ports:
+      - "5000:5000"
+
+    volumes:
+      - ./backend:/app
+
+    environment:
+      - FLASK_ENV=development
+
+  mail-stock-valuator:
+    build:
+      context: ./mail-valuator
+      dockerfile: Dockerfile
+
+    ports:
+      - "5000:5000"
+
+    volumes:
+      - ./mail-valuator/data:/app/data
+      - ./mail-valuator/logs:/app/logs
+
+    
+    # environment:
+    #   - IMAP_HOST=imap.gmail.com
+    #   - IMAP_USER=${USER}
+    #   - SMTP_PORT=587
+    #   - IMAP_PASSWD=${PASSWD}
+    #   - SMTP_HOST=smtp.gmail.com
