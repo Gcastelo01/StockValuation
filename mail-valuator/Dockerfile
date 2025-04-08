@@ -17,7 +17,7 @@ RUN mkdir logs \
 
 # Instala dependências NodeJs
 COPY ./package.json .
-RUN npm install --save
+RUN npm install
 
 
 # Instala dependências Python
