@@ -21,10 +21,13 @@ services:
       - "5000:5000"
 
     volumes:
-      - ./mail-valuator:/app
+      - ./mail-valuator/data:/app/data
+      - ./mail-valuator/logs:/app/logs
+
     
-    environment:
-      - IMAP_HOST=imap.gmail.com
-      - SMTP_PORT=587
-      - IMAP_PASSWD=senha
-      - SMTP_HOST=smtp.gmail.com
+    # environment:
+    #   - IMAP_HOST=imap.gmail.com
+    #   - IMAP_USER=${USER}
+    #   - SMTP_PORT=587
+    #   - IMAP_PASSWD=${PASSWD}
+    #   - SMTP_HOST=smtp.gmail.com
