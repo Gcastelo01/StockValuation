@@ -19,14 +19,19 @@ O sistema ainda está em desenvolvimento, e diversas funcionalidades que ainda n
 Para gerar um relatório, basta enviar um e-mail para o endereço do servidor, com o ticker (ex.: CMIG4, PETR3...) no campo 'Assunto'. Após um tempo que varia entre 30 segundos e 2 minutos, a depender da conexão e capacidade de processamento, o servidor enviará um arquivo PDF para o e-mail solicitante, contendo diversos gráficos com as métricas dos indicadores fundamentalistas, além de uma avaliação de preço alvo da ação segundo o método de Graham
 
 ## Instalação
-
-Para instalar o sistema com todas as suas dependências, basta executar o seguinte comando:
-
-    sudo bash install.sh
-
-O script de instalação irá instalar e configurar todas as dependências necessárias para o projeto.
-
-Ao longo do script de instalação, o usuário deverá preencher os dados do e-mail que o servidor utilizará para processar a requisição. O serviço utilizado é o gmail, que permite criação de um e-mail gratuito, e disponibiliza uma senha de app para uso neste tipo de serviço. Um tutorial de como obter esta senha pode ser obtido [aqui](https://www.treinaweb.com.br/blog/enviando-email-com-python-e-smtp)
+O sistema é um contêier docker, que pode ser criado através do comando
+```shell
+    sudo docker compose up -d --build mail-stock-valuator
+```
+No arquivo _.netconfig_, dentro da pasta mail-valuator, o usuário deverá preencher as seguintes variáveis de ambiente que serão utilizadas:
+```properties
+IMAP_HOST="imap.gmail.com"
+IMAP_USER="<email_configurado>"
+IMAP_PASSWD="<senha de aplicativo>"
+SMTP_PORT=587
+SMTP_HOST="smtp.gmail.com"
+```
+O serviço utilizado é o gmail, que permite criação de um e-mail gratuito, e disponibiliza uma senha de app para uso neste tipo de serviço. Um tutorial de como obter esta senha pode ser obtido [aqui](https://www.treinaweb.com.br/blog/enviando-email-com-python-e-smtp)
 
 ## Agradecimentos especiais
 
