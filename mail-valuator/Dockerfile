@@ -19,8 +19,6 @@ RUN apt-get update && apt-get install -y \
 # Diretório do app
 WORKDIR /app
 
-RUN mkdir logs temp data
-
 # Copia arquivos de dependência primeiro (aproveita cache)
 COPY ./requirements.txt .
 COPY ./package*.json ./
