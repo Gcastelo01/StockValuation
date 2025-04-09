@@ -29,6 +29,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Instala dependências NodeJS
 RUN npm install
 
+RUN mkdir temp
+
 # Instala Quarto
 RUN curl -L -o ./temp/quarto-linux-amd64.deb https://quarto.org/download/latest/quarto-linux-amd64.deb \
     && dpkg -i ./temp/quarto-linux-amd64.deb \
