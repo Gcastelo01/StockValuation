@@ -1,6 +1,6 @@
 # TODO: Logo mais faremos isso... heheh
 # # Stage 1: Build React frontend
-# FROM node:18 as frontend-builder
+# FROM node:22 as frontend-builder
 
 # WORKDIR /app
 # COPY ../frontend ./frontend
