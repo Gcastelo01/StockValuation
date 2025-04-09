@@ -5,8 +5,8 @@ services:
       dockerfile: Dockerfile
 
     volumes:
-      - ./mail-valuator/data:/app/data
-      - ./mail-valuator/logs:/app/logs
+      - /var/cache/mail-valuator:/app/data
+      - /var/log/mail-valuator:/app/logs
 
     # environment:
     #   - IMAP_HOST=imap.gmail.com
