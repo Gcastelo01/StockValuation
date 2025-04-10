@@ -1,13 +1,14 @@
 services:
-  mail-stock-valuator:
+  web-stock-valuator:
     build:
-      context: ./mail-valuator
-      dockerfile: Dockerfile
+      context: ./backend
+
+    ports:
+      - "5000:5000"
 
     volumes:
-      - /var/cache/mail-valuator:/app/data
-      - /var/log/mail-valuator:/app/logs
-
+      - ./backend:/app
+    
     # environment:
     #   - IMAP_HOST=imap.gmail.com
     #   - IMAP_USER=${USER}
