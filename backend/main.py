@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+from fastapi.responses import FileResponse
+
 
 from modules.setter import Setter
 
@@ -6,7 +8,9 @@ app = FastAPI()
 
 
 @app.get('/{ticker_name}')
-def info_ticker(ticker_name: str):
+async def info_ticker(ticker_name: str):
     sett = Setter(ticker_name)
-    sett.generate_analysis()
+    file = await sett.generate_analysis()
     
+    
+    return FileResponse(file)
