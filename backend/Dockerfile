@@ -1,14 +1,4 @@
-# TODO: Logo mais faremos isso... heheh
-# # Stage 1: Build React frontend
-# FROM node:22 as frontend-builder
-
-# WORKDIR /app
-# COPY ../frontend ./frontend
-# WORKDIR /app/frontend
-# RUN npm install && npm run build
-
-
-# Stage 2: Backend com Python + Node
+# Backend com Python + Node
 FROM python:3.9-slim
 
 # Instala Node.js

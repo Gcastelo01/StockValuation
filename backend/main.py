@@ -1,19 +1,12 @@
-from flask import Flask, send_from_directory
-import os
+from fastapi import FastAPI
 
-app = Flask(__name__, static_folder="static")
+from modules.setter import Setter
 
-@app.route("/")
-def serve_index():
-    return send_from_directory(app.static_folder, "index.html")
+app = FastAPI()
 
-@app.route("/<path:path>")
-def serve_static(path):
-    return send_from_directory(app.static_folder, path)
 
-@app.route("/api/hello")
-def hello():
-    return {"message": "Olá do Flask!"}
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+@app.get('/{ticker_name}')
+def info_ticker(ticker_name: str):
+    sett = Setter(ticker_name)
+    sett.generate_analysis()
+    
