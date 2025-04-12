@@ -1,4 +1,12 @@
 services:
+  web-stock-valuator-front:
+    build:
+      context: ./frontent
+
+    ports:
+      -"8001:8001"
+      
+
   web-stock-valuator:
     build:
       context: ./backend
